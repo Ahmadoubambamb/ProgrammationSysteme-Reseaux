@@ -52,7 +52,7 @@ int main(int argc , char const * argv[])
               return 0;
         }
         nbTotal +=nbWrite;
-        printf("\r%.4f%%",100.0 * nbTotal/stFichierSrc.st_size);
+        printf("\r%.1f%%",100.0 * nbTotal/stFichierSrc.st_size);
     }
 
  }while(nbRead > 0);
