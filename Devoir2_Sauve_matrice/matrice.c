@@ -1,7 +1,7 @@
 #include <unistd.h>
 #include  <stdio.h>
 #include <stdlib.h>
-
+#include <time.h>
 extern char * optarg;
 extern int optopt;
 extern int optind;

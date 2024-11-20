@@ -30,7 +30,7 @@ char ** build(char *cmd){
 int main(int argc , char *argv[])
 {
 //    printf("Nouvelle commande ls\n");
-// //     execlp("ls","ls","-l","-a",NULL);
+//     execlp("ls","ls","-l","-a",NULL);
 // //     printf("erreur de exexc");
 //     char * args[] = {"ls", "-l", "-a"};
 //     execvp("ls",args);
