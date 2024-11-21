@@ -12,7 +12,7 @@ int main(int argc , char * argv[]){
     srand(time(NULL));
  int **matrix;
  int dim ,opt ,estbinaire = 0;
-  char nomfic[255];
+  char nomfic[255] ;
     while((opt = getopt(argc , argv , ":d:cabtf:")) != -1)
     {
         switch(opt)
@@ -74,26 +74,44 @@ int main(int argc , char * argv[]){
 
             case 'b':
                 estbinaire = 1;
-                 int fdw = open(nomfic,O_WRONLY);
-                 if(fdw == -1)
+                 int fdwB = open(nomfic,O_WRONLY);
+                 if(fdwB == -1)
                  { perror("Ouverture !");
                      return EXIT_FAILURE;
                  }
 
                 for(int i = 0;i < dim ;i++)
                     for(int j = 0;j < dim ;j++)
-                         if(write(fdw , &matrix[i][j] , sizeof(int)) <= 0){
+                         if(write(fdwB , &matrix[i][j] , sizeof(int)) <= 0){
                              perror("Erreur d'ecritue dans le fichier ");
                              return EXIT_FAILURE;
                         }
 
-                close(fdw);
+                close(fdwB);
                 break;
             case 't':
                 estbinaire = 0;
-                for(int i = 0;i < dim ;i++)
-                    for(int j = 0;j < dim ;j++)
-                     //
+                int fdwT = open(nomfic ,O_WRONLY);
+                if(fdwT == -1){
+                    fprintf(stderr,"erreur d'Ouverture");
+                    return EXIT_FAILURE;
+                }
+               char enText[10] ;
+                for(int i = 0;i < dim ;i++){
+                    for(int j = 0;j < dim ;j++){
+                   int L = sprintf(enText,"%5d",matrix[i][j]);
+                     if(write(fdwT ,enText,L) <= 0)
+                     { perror("Erreur d'ecriture ");
+                       return EXIT_FAILURE;
+                     }
+                    }
+                  int L = sprintf(enText,"\n");
+                    if(write(fdwT ,enText,L) <= 0)
+                        { perror("Erreur d'ecriture2 ");
+                       return EXIT_FAILURE;
+                     }
+                    }
+                    break;
         }
     }
 }
