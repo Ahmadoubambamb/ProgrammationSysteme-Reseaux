@@ -55,6 +55,7 @@ int main(int argc , char *argv[]){
      printf("partie_%d\n",i);
      close(fddest[i]); // on ferm le fichier cree
       }
- close
+ close(fd);
+ free(fddest);// on libere l'espace alloue
     return 0;
 }
