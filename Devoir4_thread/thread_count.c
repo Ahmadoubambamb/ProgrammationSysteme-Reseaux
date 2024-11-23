@@ -4,28 +4,26 @@
 #include <semaphore.h>
 #include <unistd.h>
 
-sem_t semIncrement, semDecrement; // Sémaphores pour la synchronisation
-int compteur = 0;                // Valeur partagée entre les threads
-int n;                           // Limite de l'incrément et du décrément
+sem_t semIncrement, semDecrement; // Sémaphores pour synchronisation
+int compteur = 0;                // Compteur partagé entre les threads
+int n;                           // Limite supérieure et inférieure
 
 void *increment_thread(void *arg) {
-    for (int i = 0; i <= n; i++) {
-        sem_wait(&semIncrement); // Attendre le signal
-        printf("%d\n", compteur);
-        for(int i = 0;i < 100000000;i++);
+    for (int i = 0; i < n; i++) {
+        sem_wait(&semIncrement); // Attendre le signal pour incrémenter
         compteur++;              // Incrémenter
-        sem_post(&semDecrement); // Débloquer le thread décrément
+        printf("%d\n", compteur);
+        sem_post(&semDecrement); // Signaler au thread décrémentation
     }
     return NULL;
 }
 
 void *decrement_thread(void *arg) {
-    for (int i = 0; i <= n; i++) {
-        sem_wait(&semDecrement); // Attendre le signal
-        printf("%d\n", compteur);
-        for(int i = 0;i < 100000000;i++);
+    for (int i = 0; i < n; i++) {
+        sem_wait(&semDecrement); // Attendre le signal pour décrémenter
         compteur--;              // Décrémenter
-        sem_post(&semIncrement); // Débloquer le thread incrément
+        printf("%d\n", compteur);
+        sem_post(&semIncrement); // Signaler au thread incrémentation
     }
     return NULL;
 }
@@ -33,6 +31,11 @@ void *decrement_thread(void *arg) {
 int main() {
     printf("Entrez la valeur de n (limite positive et négative) : ");
     scanf("%d", &n);
+
+    if (n <= 0) {
+        fprintf(stderr, "n doit être un entier positif.\n");
+        exit(EXIT_FAILURE);
+    }
 
     // Initialisation des sémaphores
     sem_init(&semIncrement, 0, 1); // Le thread incrément peut commencer
