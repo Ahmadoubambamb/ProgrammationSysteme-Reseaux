@@ -27,7 +27,7 @@ void *decrement_thread(void *arg) {
     while(compteur >= -n){
         compteur--;
         printf("%d\n", compteur);
-        for(int i = 0;i < 100000000;i++);
+       for(int i = 0;i < 100000000;i++);
 
     }
      sem_post(&semIncrement);
@@ -35,10 +35,12 @@ void *decrement_thread(void *arg) {
     return NULL;
 }
 
-int main() {
-    printf("Entrez la valeur de n (limite positive et négative) : ");
-    scanf("%d", &n);
-
+int main(int argc , char *argv[]){
+     if (argc != 2) {
+        fprintf(stderr, "Usage: %s n\n", argv[0]);
+        return EXIT_FAILURE;
+    }
+    n = atoi(argv[1]);
     if (n <= 0) {
         fprintf(stderr, "n doit être un entier positif.\n");
         exit(EXIT_FAILURE);
