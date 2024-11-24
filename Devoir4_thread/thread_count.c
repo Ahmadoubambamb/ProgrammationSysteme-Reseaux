@@ -11,7 +11,7 @@ int n;                           // Limite supérieure et inférieure
 void *increment_thread(void *arg) {
     while(1){
          sem_wait(&semIncrement);
-    for (int i = 0; i < n; i++) {
+    while(compteur < n){
         compteur++;
         for(int i = 0;i < 100000000;i++); //pour relantir l'affichage
         printf("%d\n", compteur);
@@ -24,12 +24,9 @@ void *increment_thread(void *arg) {
 void *decrement_thread(void *arg) {
    while(1){
         sem_wait(&semDecrement);
-    for(int i = 0; i < 2*n; i++){
+    while(compteur >= -n){
         compteur--;
         printf("%d\n", compteur);
-        if(compteur == -n){
-            compteur = 0;
-           }
         for(int i = 0;i < 100000000;i++);
 
     }
