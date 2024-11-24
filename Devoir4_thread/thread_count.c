@@ -12,12 +12,10 @@ void *increment_thread(void *arg) {
     while(1){
          sem_wait(&semIncrement);
     for (int i = 0; i < n; i++) {
-        // Attendre le signal pour incrémenter
         compteur++;
-        for(int i = 0;i < 100000000;i++);
+        for(int i = 0;i < 100000000;i++); //pour relantir l'affichage
         printf("%d\n", compteur);
-
-    }
+     }
     sem_post(&semDecrement);
     }
     return NULL;
@@ -26,11 +24,14 @@ void *increment_thread(void *arg) {
 void *decrement_thread(void *arg) {
    while(1){
         sem_wait(&semDecrement);
-    for(int i = 0; i < n; i++){
-        // Attendre le signal pour décrémenter
+    for(int i = 0; i < 2*n; i++){
         compteur--;
-        for(int i = 0;i < 100000000;i++);
         printf("%d\n", compteur);
+        if(compteur == -n){
+            compteur = 0;
+           }
+        for(int i = 0;i < 100000000;i++);
+
     }
      sem_post(&semIncrement);
   }
