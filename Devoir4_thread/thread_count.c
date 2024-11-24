@@ -9,22 +9,31 @@ int compteur = 0;                // Compteur partagé entre les threads
 int n;                           // Limite supérieure et inférieure
 
 void *increment_thread(void *arg) {
+    while(1){
+         sem_wait(&semIncrement);
     for (int i = 0; i < n; i++) {
-        sem_wait(&semIncrement); // Attendre le signal pour incrémenter
-        compteur++;              // Incrémenter
+        // Attendre le signal pour incrémenter
+        compteur++;
+        for(int i = 0;i < 100000000;i++);
         printf("%d\n", compteur);
-        sem_post(&semDecrement); // Signaler au thread décrémentation
+
+    }
+    sem_post(&semDecrement);
     }
     return NULL;
 }
 
 void *decrement_thread(void *arg) {
-    for (int i = 0; i < n; i++) {
-        sem_wait(&semDecrement); // Attendre le signal pour décrémenter
-        compteur--;              // Décrémenter
+   while(1){
+        sem_wait(&semDecrement);
+    for(int i = 0; i < n; i++){
+        // Attendre le signal pour décrémenter
+        compteur--;
+        for(int i = 0;i < 100000000;i++);
         printf("%d\n", compteur);
-        sem_post(&semIncrement); // Signaler au thread incrémentation
     }
+     sem_post(&semIncrement);
+  }
     return NULL;
 }
 
