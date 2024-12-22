@@ -47,21 +47,24 @@ int main(int argc , char *argv[]){
     int taille = sizeof(struct sockaddr_in);
     // buffer
     char bufferSend[] = "pong";
-    char bufferReceive[] ="ping";
-
-    while(1)
-        { int sockClientTCP = accept(socketServeurTCP ,(struct sockaddr*) &addrClient , &taille);
+    char bufferReceive[10];
+    int sockClientTCP = accept(socketServeurTCP ,(struct sockaddr*) &addrClient , &taille);
          printf("connection accepter pour le client %s : %d",inet_ntoa(addrClient.sin_addr), ntohs(addrClient.sin_port));
-
+ int i = 1;
+    while(1)
+        {
          // envoyer ping
          send(sockClientTCP , bufferSend , strlen(bufferSend),0);
-         printf("envoi de ping");
+         printf("[#server# %d] (server) %s : %d > %s : %d : %s\n",i,inet_ntoa(addrServer.sin_addr),ntohs(addrServer.sin_port),inet_ntoa(addrClient.sin_addr),ntohs(addrClient.sin_port),bufferSend);
+         i++;
          sleep(1);
          //recevoir ping
+         memset(bufferReceive,0,5);
          recv(sockClientTCP, bufferReceive ,5 * sizeof(char) ,0);
-         printf("donnees recus :%s \n",bufferReceive);
+         printf("[#server# %d] (client) %s : %d > %s : %d : %s\n",i,inet_ntoa(addrClient.sin_addr),ntohs(addrClient.sin_port),inet_ntoa(addrServer.sin_addr),ntohs(addrServer.sin_port),bufferReceive);
+         i++;
          close(sockClientTCP);
-         close(sockClientTCP);
+
         }
     return 0;
 }
