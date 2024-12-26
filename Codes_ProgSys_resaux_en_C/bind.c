@@ -47,7 +47,7 @@ int main(int argc , char *argv[]){
     int taille = sizeof(struct sockaddr_in);
     // buffer
     char bufferSend[] = "pong";
-    char bufferReceive[] ="ping";
+    char bufferReceive[10] ;
 
     while(1)
         { int sockClientTCP = accept(socketServeurTCP ,(struct sockaddr*) &addrClient , &taille);
@@ -55,7 +55,7 @@ int main(int argc , char *argv[]){
 
          // envoyer ping
          send(sockClientTCP , bufferSend , strlen(bufferSend),0);
-         printf("envoi de ping");
+         printf("envoi de ping:\n");
          sleep(1);
          //recevoir ping
          recv(sockClientTCP, bufferReceive ,5 * sizeof(char) ,0);
