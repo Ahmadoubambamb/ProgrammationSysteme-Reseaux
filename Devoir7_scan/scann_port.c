@@ -32,7 +32,7 @@ int main(int argc ,char *argv[]) {
 
         // Tentative de connexion
    int res = connect(sockClient, (struct sockaddr *)&addrServer, sizeof(addrServer));
-        if(res != 0)
+        if(res != -1)
             printf("Port ouvert : %d\n", port);
         // Fermeture du socket
         close(sockClient);
